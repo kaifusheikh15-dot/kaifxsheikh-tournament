@@ -1,0 +1,25 @@
+body {
+margin: 0;
+font-family: Arial;
+background: #10101c;
+color: white;
+text-align: center;
+}
+header {
+background: #ff5722;
+padding: 30px 10px;
+}
+.card {
+background: #222238;
+margin: 20px;
+padding: 25px;
+border-radius: 15px;
+}
+button {
+background: #ff5722;
+color: white;
+padding: 12px 25px;
+border: none;
+border-radius: 8px;
+font-weight: bold;
+}

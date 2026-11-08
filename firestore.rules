@@ -1,0 +1,55 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    match /users/{uid} {
+      allow read: if signedIn()
+        && request.auth.uid == uid;
+
+      allow create, update: if signedIn()
+        && request.auth.uid == uid
+        && request.resource.data.keys()
+          .hasOnly(['ffName', 'ffUid', 'displayName'])
+        && request.resource.data.ffName is string
+        && request.resource.data.ffUid is string
+        && request.resource.data.displayName is string;
+
+      allow delete: if false;
+    }
+
+    match /wallets/{uid} {
+      allow read: if signedIn()
+        && request.auth.uid == uid;
+
+      allow write: if false;
+    }
+
+    match /coinTransactions/{id} {
+      allow read: if signedIn()
+        && resource.data.uid == request.auth.uid;
+
+      allow write: if false;
+    }
+
+    match /dailyClaims/{id} {
+      allow read, write: if false;
+    }
+
+    match /tournaments/{tournamentId} {
+      allow read: if signedIn();
+      allow write: if false;
+
+      match /players/{uid} {
+        allow read: if signedIn()
+          && request.auth.uid == uid;
+
+        allow write: if false;
+      }
+    }
+  }
+}

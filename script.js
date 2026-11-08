@@ -1,9 +1,19 @@
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyCzKnh-P0rHk42Xn1yBpRdQFgt1wi-pVYc",
+  authDomain: "kaifuxsheikh.firebaseapp.com",
+  projectId: "kaifuxsheikh",
+  storageBucket: "kaifuxsheikh.firebasestorage.app",
+  messagingSenderId: "888433633869",
+  appId: "1:888433633869:web:16dde5b433ff6ff5f9ca04",
+  measurementId: "G-1PYHYF6EVG"
 };
+
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+const db = firebase.firestore();
+const functions = firebase.app().functions("asia-south1");
 
 const initializeWallet = functions.httpsCallable("initializeWallet");
 const claimDailyBonus = functions.httpsCallable("claimDailyBonus");
@@ -22,7 +32,7 @@ function showMessage(id, text) {
 }
 
 function errorMessage(error) {
-  return error.message || "Something went wrong. Please try again.";
+  return error.message || "Something went wrong. Try again.";
 }
 
 function busy(button, state, text = "Please wait...") {
@@ -55,7 +65,7 @@ auth.getRedirectResult().catch(error => {
   showMessage("loginMessage", errorMessage(error));
 });
 
-// Login state and dashboard
+// Player login state
 auth.onAuthStateChanged(async user => {
   currentUser = user;
 
@@ -65,13 +75,14 @@ auth.onAuthStateChanged(async user => {
   if (!user) {
     if (walletListener) walletListener();
     if (registrationListener) registrationListener();
+    walletListener = null;
+    registrationListener = null;
     return;
   }
 
   $("playerName").textContent = user.displayName || "Player";
 
   try {
-    // This callable creates the wallet once and grants 1,000 coins once.
     await initializeWallet();
   } catch (error) {
     showMessage("tournamentMessage", errorMessage(error));
@@ -139,7 +150,7 @@ $("saveProfileBtn").addEventListener("click", async () => {
   const uid = $("ffUid").value.trim();
 
   if (!name || !/^\d{5,20}$/.test(uid)) {
-    showMessage("profileMessage", "Enter your name and valid 5–20 digit UID.");
+    showMessage("profileMessage", "Enter name and valid 5-20 digit UID.");
     return;
   }
 
@@ -161,7 +172,7 @@ $("saveProfileBtn").addEventListener("click", async () => {
   }
 });
 
-// Daily bonus: backend allows only one claim per day
+// Daily 50 coin bonus
 $("dailyBonusBtn").addEventListener("click", async () => {
   const button = $("dailyBonusBtn");
   busy(button, true, "Claiming...");
@@ -176,7 +187,7 @@ $("dailyBonusBtn").addEventListener("click", async () => {
   }
 });
 
-// Solo tournament: backend checks balance and deducts coins atomically
+// Solo tournament: 100 coins
 $("joinSoloBtn").addEventListener("click", async () => {
   if (!confirm("Join Solo Battle for 100 virtual coins?")) return;
 
@@ -196,4 +207,5 @@ $("joinSoloBtn").addEventListener("click", async () => {
   }
 });
 
+// Logout
 $("logoutBtn").addEventListener("click", () => auth.signOut());

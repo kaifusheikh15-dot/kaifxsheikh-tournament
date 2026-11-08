@@ -4,11 +4,6 @@ const firebaseConfig = {
   projectId: "YOUR_PROJECT_ID",
   appId: "YOUR_APP_ID"
 };
-firebase.initializeApp(firebaseConfig);
-
-const auth = firebase.auth();
-const db = firebase.firestore();
-const functions = firebase.app().functions("asia-south1");
 
 const initializeWallet = functions.httpsCallable("initializeWallet");
 const claimDailyBonus = functions.httpsCallable("claimDailyBonus");

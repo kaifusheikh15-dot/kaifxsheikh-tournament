@@ -1,32 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Free Fire Tournament</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KAIFXSHEIKH | Free Fire Tournament</title>
+  <link rel="stylesheet" href="style.css">
+
+  <script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-functions-compat.js"></script>
+  <script defer src="script.js"></script>
 </head>
 <body>
-<header>
-<h1>🔥 FREE FIRE TOURNAMENT</h1>
-<p>Play • Compete • Win</p>
-</header>
+  <header class="topbar">
+    <a class="brand" href="#">
+      <span class="brand-mark">K</span>
+      <span>KAIFXSHEIKH<small>FREE FIRE ARENA</small></span>
+    </a>
+    <span class="free-tag">100% FREE</span>
+  </header>
 
-<main>
-<h2>Upcoming Tournament</h2>
-<div class="card">
-<h3>Solo Battle</h3>
-<p>Entry Fee: ₹20</p>
-<p>Prize Pool: ₹500</p>
-<button onclick="register()">Register Now</button>
-</div>
-<div class="card">
-<h3>Squad Battle</h3>
-<p>Entry Fee: ₹80</p>
-<p>Prize Pool: ₹2000</p>
-<button onclick="register()">Register Now</button>
-</div>
-</main>
-<script src="script.js"></script>
+  <main class="container">
+    <section id="loginPanel" class="hero panel">
+      <div class="eyebrow">WELCOME TO THE ARENA</div>
+      <h1>Play. Compete.<br><span>Be the Champion.</span></h1>
+      <p>Sign in with Google to create your player account and join tournaments using virtual coins.</p>
+      <button id="googleLogin" class="primary-btn">Continue with Google</button>
+      <p class="fineprint">No deposits • No withdrawals • No real-money prizes</p>
+      <p id="loginMessage" class="message"></p>
+    </section>
+
+    <section id="dashboard" hidden>
+      <div class="welcome-row">
+        <div>
+          <div class="eyebrow">PLAYER DASHBOARD</div>
+          <h1>Welcome, <span id="playerName">Player</span></h1>
+        </div>
+        <button id="logoutBtn" class="ghost-btn">Logout</button>
+      </div>
+
+      <section class="wallet panel">
+        <div>
+          <div class="eyebrow">YOUR VIRTUAL WALLET</div>
+          <div class="coin-balance">🪙 <strong id="coinBalance">...</strong></div>
+          <p>Virtual coins have no cash value.</p>
+        </div>
+        <button id="dailyBonusBtn" class="bonus-btn">Claim +50 Daily Coins</button>
+      </section>
+
+      <div class="section-heading">
+        <div class="eyebrow">YOUR PROFILE</div>
+        <h2>Free Fire Details</h2>
+      </div>
+
+      <section class="panel profile-form">
+        <label>
+          Free Fire Name
+          <input id="ffName" maxlength="30" placeholder="Enter your game name">
+        </label>
+        <label>
+          Free Fire UID
+          <input id="ffUid" inputmode="numeric" maxlength="20" placeholder="Enter your UID">
+        </label>
+        <button id="saveProfileBtn" class="secondary-btn">Save Player Details</button>
+        <p id="profileMessage" class="message"></p>
+      </section>
+
+      <div class="section-heading">
+        <div class="eyebrow">COMPETE WITH PLAYERS</div>
+        <h2>Available Tournament</h2>
+      </div>
+
+      <section class="tournament-card panel">
+        <div class="tournament-icon">⚔️</div>
+        <div class="tournament-info">
+          <span class="status">REGISTRATION OPEN</span>
+          <h3>Solo Battle</h3>
+          <p>Solo • Entry fee: <b>100 coins</b></p>
+          <p class="muted">Virtual coin entry only. No cash rewards.</p>
+        </div>
+        <button id="joinSoloBtn" class="primary-btn">Join Solo</button>
+      </section>
+      <p id="tournamentMessage" class="message"></p>
+
+      <div class="section-heading">
+        <div class="eyebrow">YOUR ACTIVITY</div>
+        <h2>My Registrations</h2>
+      </div>
+      <section id="registrations" class="panel">
+        <p class="muted">Your registrations will appear here.</p>
+      </section>
+    </section>
+  </main>
+
+  <footer>© <span id="year"></span> KAIFXSHEIKH • Community Gaming</footer>
 </body>
 </html>
